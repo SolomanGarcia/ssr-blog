@@ -3,6 +3,8 @@
   padding: 0 0.5rem;
   display: flex;
   flex-direction: column;
+  width: 960px;
+  margin: 0 auto;
   justify-content: center;
   align-items: center;
 }
@@ -12,7 +14,7 @@
 }
 
 .goback {
-  text-emphasis: left;
+  text-align: left;
   align-self: self-start;
   cursor: pointer;
 }

@@ -35,7 +35,7 @@ const Home: React.FC<{ posts: Post[] }> = (props) => {
       <ul>
         {posts.map((post, index) => {
           return (
-            <li key={post.slug}>
+            <li className={styles.postitem} key={post.slug}>
               <Link href="/post/[slug]" as={`/post/${post.slug}`}>
                 <a>{post.title}</a>
               </Link>
