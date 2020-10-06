@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../../styles/Home.module.scss";
+import { useState } from "react";
 
 const { BLOG_URL, CONTENT_API_KEY } = process.env;
 
@@ -39,12 +40,28 @@ type Post = {
 
 const Post: React.FC<{ post: Post }> = (props) => {
   const { post } = props;
+  const [enableLoadComments, setEnableLoadComments] = useState<boolean>(true);
 
   const router = useRouter();
 
   if (router.isFallback) {
     return <h1>Loading...</h1>;
   }
+
+  function loadComments() {
+    setEnableLoadComments(false);
+    (window as any).disqus_config = function () {
+      this.page.url = window.location.href;
+      this.page.identifier = post.slug;
+    };
+
+    const script = document.createElement("script");
+    script.src = "https://ghostcms-nextjs-3.disqus.com/embed.js";
+    script.setAttribute("data-timestamp", Date.now().toString());
+
+    document.body.appendChild(script);
+  }
+
   return (
     <div className={styles.container}>
       <Link href="/">
@@ -52,6 +69,13 @@ const Post: React.FC<{ post: Post }> = (props) => {
       </Link>
       <h1>{post.title}</h1>
       <div dangerouslySetInnerHTML={{ __html: post.html }}></div>
+
+      {enableLoadComments && (
+        <p className={styles.goback} onClick={loadComments}>
+          Load Comments
+        </p>
+      )}
+      <div id="disqus_thread"></div>
     </div>
   );
 };
