@@ -22,6 +22,7 @@ async function getPosts() {
 export const getStaticProps = async ({ params }) => {
   const posts = await getPosts();
   return {
+    revalidate: 10,
     props: { posts }
   };
 };
@@ -31,7 +32,7 @@ const Home: React.FC<{ posts: Post[] }> = (props) => {
 
   return (
     <div className={styles.container}>
-      <h1>Hello to my blog</h1>
+      <h1>Welcome to my blog</h1>
       <ul>
         {posts.map((post, index) => {
           return (

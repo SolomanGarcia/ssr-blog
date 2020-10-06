@@ -18,7 +18,8 @@ async function getPosts(slug: string) {
 export const getStaticProps = async ({ params }) => {
   const post = await getPosts(params.slug);
   return {
-    props: { post }
+    props: { post },
+    revalidate: 10
   };
 };
 
